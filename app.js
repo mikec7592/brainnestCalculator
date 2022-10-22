@@ -39,14 +39,14 @@ window.onload=function(){
 
     btns.forEach( (btns) => {
         btns.addEventListener("click", event =>  {
-          console.log(event.target)
-          screen.value += btns.getAttribute("key");
+            screen.value += btns.getAttribute("key");
+            console.log(screen.value)
         });
     });
 
     equal.addEventListener('click', () => {
-        if (screen.value === "") {
-            screen.value = 'Enter value';
+        if (screen.value.includes("/0")) {
+            screen.value = 'invalid';
         } else {
             screen.value = Function( "return " + screen.value)().toFixed(2)
         }
