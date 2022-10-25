@@ -1,58 +1,114 @@
 window.onload=function(){
 
-    const btns = document.querySelectorAll(".btn");
-    const screen = document.querySelector(".screen");
-    const equal = document.querySelector(".equal");
-    const clear = document.querySelector(".clear");
-    let form = document.querySelector('form');
-    // let div = document.querySelector('div');
-    // let test = document.querySelector('.test');
+  const calculator = {
+    screenValue: '0',
+    firstNum: null,
+    waitingForSecondNum: false,
+    operator: null,
+  };
 
-    // let keys = ['*', '/', '-', '+', '.', '9', '8', '7', '6', '5', '4', '3', '2', '1', '0', 'E', 'C']
-    // let text = ['*', '/', '-', '+', '.', '9', '8', '7', '6', '5', '4', '3', '2', '1', '0', '=', 'C']
+  const btns = document.querySelector('.buttons');
+  
+  let inputNum = (num) => {
+    const { screenValue, waitingForSecondNum } = calculator;
+  
+    if (waitingForSecondNum === true) {
+      calculator.screenValue = num;
+      calculator.waitingForSecondNum = false;
+    } else {
+      calculator.screenValue = screenValue === '0' ? num : screenValue + num;
+    }
+  }
+  
+  let inputDecimal = (dot) => {
+    if (calculator.waitingForSecondNum === true) {
+        calculator.screenValue = "0."
+      calculator.waitingForSecondNum = false;
+      return
+    }
+  
+    if (!calculator.screenValue.includes(dot)) {
+      calculator.screenValue += dot;
+    }
+  }
 
-    // let buildButtons = () => {
-    //     for (let i = 0; i < 17; i++) {
-    //         let buttons = document.createElement('button')
-    //         buttons.className = 'btn'
-    //         buttons.id = keys[i]
-    //         buttons.setAttribute('key', keys[i])
-    //         buttons.innerText = text[i]
+  let evaluate = (firstNum, SecondNum, operator) => {
+    if (operator === '+') {
+      return firstNum + SecondNum;
+    } else if (operator === '-') {
+      return firstNum - SecondNum;
+    } else if (operator === '*') {
+      return firstNum * SecondNum;
+    } else if (operator === '/') {
+      return firstNum / SecondNum;
+    }
+    return SecondNum;
+  }
+  
+  //       ******* losely taken from stack overflow *****
+  //       ******* function to chain operators and automatically evaluate without hitting = *******
 
-    //         div.appendChild(buttons)
-    //     }
-    // }
-
-    // buildButtons();
-
-    form.addEventListener('submit', () => {
-        if (screen.value === "") {
-            screen.value = 'enter value'
-        } else {
-            screen.value = Function("return " + screen.value)().toFixed(2)
+  let handleOperator = (nextOperator) => {
+    const { firstNum, screenValue, operator } = calculator
+    const inputValue = parseFloat(screenValue);
+    
+    if (operator && calculator.waitingForSecondNum)  {
+      calculator.operator = nextOperator;
+      return;
+    }
+    if (firstNum == null && !isNaN(inputValue)) {
+      calculator.firstNum = inputValue;
+    } else if (operator) {
+      const result = evaluate(firstNum, inputValue, operator);
+  
+      calculator.screenValue = `${parseFloat(result.toFixed(4))}`;
+      calculator.firstNum = result;
+    }
+  
+    calculator.waitingForSecondNum = true;
+    calculator.operator = nextOperator;
+  }
+  
+  let resetCalculator = () => {
+    calculator.screenValue = '0';
+    calculator.firstNum = null;
+    calculator.waitingForSecondNum = false;
+    calculator.operator = null;
+  }
+  
+  let updateScreen = () => {
+    const screen = document.querySelector('.screen');
+    screen.value = calculator.screenValue;
+  }
+  
+  updateScreen();
+  
+  btns.addEventListener('click', event => {
+    const { target } = event;
+    const { value } = target;
+    if (!target.matches('button')) {
+      return;
+    }
+  
+    switch (value) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+      case '=':
+        handleOperator(value);
+        break;
+      case '.':
+        inputDecimal(value);
+        break;
+      case 'clear':
+        resetCalculator();
+        break;
+      default:
+        if (Number.isInteger(parseFloat(value))) {
+          inputNum(value);
         }
-    });
-
-    // test.addEventListener('click', event => {
-    //     console.log(event.target)
-    // })
-
-    btns.forEach( (btns) => {
-        btns.addEventListener("click", event =>  {
-            screen.value += btns.getAttribute("key");
-            console.log(screen.value)
-        });
-    });
-
-    equal.addEventListener('click', () => {
-        if (screen.value.includes("/0")) {
-            screen.value = 'invalid';
-        } else {
-            screen.value = Function( "return " + screen.value)().toFixed(2)
-        }
-    });
-
-    clear.addEventListener('click', () => {
-        screen.value = ""
-    })
+    }
+    updateScreen();
+  });
 }

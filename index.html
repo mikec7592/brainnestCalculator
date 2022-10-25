@@ -9,29 +9,26 @@
     <script src="./app.js"></script>
 </head>
 <body>
-    <section class="calculator">
-        <form onsubmit="return false">
-         <input type="text" class="screen">
-        </form>
+    <div class="calculator">
+        <input type="text" class="screen" value="" disabled />
         <div class="buttons">
-            <button type="button" class="btn orange" key="*">*</button>
-            <button type="button" class="btn orange" key="/">/</button>
-            <button type="button" class="btn orange" key="-">-</button>
-            <button type="button" class="btn orange" key="+">+</button>
-            <button type="button" class="btn grey" key="7">7</button>
-            <button type="button" class="btn grey" key="8">8</button>
-            <button type="button" class="btn grey" key="9">9</button>
-            <button type="button" class="btn grey" key="0">0</button>
-            <button type="button" class="btn grey" key="4">4</button>
-            <button type="button" class="btn grey" key="5">5</button>
-            <button type="button" class="btn grey" key="6">6</button>
-            <button type="button" class="btn grey" key=".">.</button>
-            <button type="button" class="btn grey" key="1">1</button>
-            <button type="button" class="btn grey" key="2">2</button>
-            <button type="button" class="btn grey" key="3">3</button>
-            <button type="button" class="equal grey">=</button>
-            <button type="button" class="clear grey">C</button>
-       </div>
-    </section>
-</body> 
+            <button type="button" class="btn orange" value="*">&times;</button>
+            <button type="button" class="btn orange" value="/">&divide;</button>
+            <button type="button" class="btn orange" value="+">+</button>
+            <button type="button" class="btn orange" value="-">-</button>
+            <button type="button" class="btn grey" value="7">7</button>
+            <button type="button" class="btn grey" value="8">8</button>
+            <button type="button" class="btn grey" value="9">9</button>
+            <button type="button" class="btn grey" value="0">0</button>
+            <button type="button" class="btn grey" class="btn grey" value="4">4</button>
+            <button type="button" class="btn grey" value="5">5</button>
+            <button type="button" class="btn grey" value="6">6</button>
+            <button type="button" class="btn dot grey" value=".">.</button>
+            <button type="button" class="btn grey" value="1">1</button>
+            <button type="button" class="btn grey" value="2">2</button>
+            <button type="button" class="btn grey" value="3">3</button>
+            <button type="button" class="btn equal grey" value="=">=</button>
+            <button type="button" class="btn clear grey" value="clear">C</button>
+      </div>
+    </div>
 </html>
