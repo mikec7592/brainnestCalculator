@@ -3,4 +3,4 @@
 
 #### In app screenshot
 
-![ScreenShot](calculator.png)
+<img src="/Images/screenCaptures/calculator.png" height=500 width=500 >
